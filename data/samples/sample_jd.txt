@@ -1,0 +1,23 @@
+Senior Backend Engineer (Python / Cloud)
+
+About the Role:
+We are seeking an experienced Backend Engineer to join our core platform engineering team. You will lead the architecture and deployment of high-throughput backend services powering our SaaS infrastructure.
+
+Requirements:
+- 3+ years of professional backend software development experience.
+- Strong proficiency in Python, with hands-on experience using modern asynchronous frameworks (FastAPI or asyncio).
+- Production experience with relational databases (PostgreSQL preferred) and database query optimization.
+- Solid understanding of containerization (Docker) and CI/CD pipelines.
+- Experience building RESTful APIs and microservice architectures.
+
+Preferred Qualifications:
+- Experience deploying and managing workloads on AWS (ECS, EKS, Lambda, S3).
+- Hands-on knowledge of Kubernetes cluster management and Helm charts.
+- Familiarity with event-driven architectures using Apache Kafka or RabbitMQ.
+- Bachelor's degree in Computer Science, Software Engineering, or related technical discipline.
+
+Responsibilities:
+- Design, build, and deploy resilient backend microservices.
+- Optimize database schemas and queries for low-latency transaction processing.
+- Collaborate with frontend engineers and product managers to deliver customer-facing features.
+- Participate in code reviews and mentor junior engineering team members.

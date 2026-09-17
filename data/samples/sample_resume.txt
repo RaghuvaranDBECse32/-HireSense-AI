@@ -1,0 +1,34 @@
+Alex Rivera
+Email: alex.rivera@example.com | Phone: (555) 234-5678 | GitHub: github.com/alexrivera-dev | LinkedIn: linkedin.com/in/alexrivera
+
+PROFESSIONAL SUMMARY
+Full-Stack Software Engineer with 3 years of professional experience building scalable web applications and REST APIs using Python, FastAPI, React, and PostgreSQL. Experienced with Docker containerization and CI/CD pipelines.
+
+WORK EXPERIENCE
+Software Engineer | CloudScale Systems
+June 2022 - Present
+- Built and maintained 12+ RESTful microservices using Python and FastAPI serving 100k daily requests.
+- Integrated PostgreSQL database with SQLAlchemy ORM, optimizing slow query performance by 35%.
+- Implemented JWT authentication and role-based access control (RBAC) across internal microservices.
+- Containerized applications using Docker and configured automated GitHub Actions CI/CD workflows.
+
+Junior Developer | ByteCraft Solutions
+August 2021 - May 2022
+- Developed responsive front-end dashboard components using React and TypeScript.
+- Collaborated with QA team to write unit and integration tests with PyTest, achieving 85% test coverage.
+- Resolved 50+ bug reports related to state management and form validation.
+
+EDUCATION
+Bachelor of Science in Computer Science
+State University of Technology (2017 - 2021)
+
+TECHNICAL SKILLS
+- Languages: Python, JavaScript, TypeScript, SQL, HTML/CSS
+- Frameworks & Libraries: FastAPI, Flask, React, Node.js, SQLAlchemy
+- Databases: PostgreSQL, SQLite, Redis
+- Tools & Cloud: Git, Docker, GitHub Actions, Postman, Linux
+
+PROJECTS
+TaskPulse - Collaborative Project Management Tool
+- Designed a real-time Kanban board using React, FastAPI, and WebSockets.
+- Implemented Docker Compose deployment with Redis caching for active task queues.
