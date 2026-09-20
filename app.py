@@ -13,6 +13,12 @@ from llm.client import get_active_provider
 
 load_dotenv()
 
+AIMO_LINK = "https://aimotnsb.com/"
+TECHKNOW_LINK = "https://techknow2026.in/#features"
+HACKATHON_LINK = "https://theproductspace.in/events/agentic-ai-hackathons"
+RESUME_DRIVE_LINK = "https://drive.google.com/drive/folders/1Ncs7e-f0qvJdOZrDEO6LBMC7UgryBPAo?usp=sharing"
+AIMO_LOGO_PATH = os.path.join("frontend", "src", "assets", "media", "aimo-logo-badge.avif")
+
 st.set_page_config(
     page_title="HireSense AI – Intelligent Resume & Job Matcher",
     page_icon="🧭",
@@ -74,21 +80,75 @@ st.markdown("""
         padding-left: 10px;
         margin-top: 6px;
     }
-    .metric-box {
-        text-align: center;
-        padding: 14px;
-        background: rgba(15, 23, 42, 0.6);
-        border-radius: 10px;
-        border: 1px solid rgba(255, 255, 255, 0.08);
-    }
-</style>
-""", unsafe_allow_html=True)
+        .metric-box {
+            text-align: center;
+            padding: 14px;
+            background: rgba(15, 23, 42, 0.6);
+            border-radius: 10px;
+            border: 1px solid rgba(255, 255, 255, 0.08);
+        }
+        .collab-hero {
+            border: 1px solid rgba(59, 130, 246, 0.28);
+            border-radius: 18px;
+            padding: 24px;
+            margin: 8px 0 20px 0;
+            background:
+                radial-gradient(circle at top left, rgba(59, 130, 246, 0.18), transparent 34%),
+                linear-gradient(135deg, rgba(15, 23, 42, 0.96), rgba(30, 41, 59, 0.86));
+        }
+        .collab-title {
+            font-size: 2rem;
+            line-height: 1.12;
+            font-weight: 800;
+            color: #F8FAFC;
+            margin-bottom: 8px;
+        }
+        .collab-copy {
+            color: #CBD5E1;
+            font-size: 0.98rem;
+            max-width: 760px;
+        }
+        .partner-card {
+            border: 1px solid rgba(148, 163, 184, 0.16);
+            border-radius: 14px;
+            padding: 14px;
+            background: rgba(15, 23, 42, 0.72);
+            min-height: 130px;
+        }
+        .partner-card h4 {
+            margin: 0 0 4px 0;
+            color: #F8FAFC;
+        }
+        .partner-card p {
+            color: #94A3B8;
+            font-size: 0.84rem;
+            margin: 0 0 10px 0;
+        }
+        .vault-card {
+            border: 1px solid rgba(16, 185, 129, 0.32);
+            border-radius: 16px;
+            padding: 18px;
+            background: linear-gradient(135deg, rgba(6, 78, 59, 0.42), rgba(15, 23, 42, 0.86));
+        }
+        .small-muted {
+            color: #94A3B8;
+            font-size: 0.82rem;
+        }
+    </style>
+    """, unsafe_allow_html=True)
 
 # Sidebar: Controls & Grounding Status
 with st.sidebar:
-    st.image("https://img.icons8.com/isometric/100/compass.png", width=64)
+    if os.path.exists(AIMO_LOGO_PATH):
+        st.image(AIMO_LOGO_PATH, width=92)
+    else:
+        st.image("https://img.icons8.com/isometric/100/compass.png", width=64)
     st.title("HireSense AI")
-    st.caption("Anti-Gravity Reasoning Engine v1.0")
+    st.caption("AIMO × TECHKNOW 2026 × Product Space collaboration layer")
+
+    st.link_button("AIMO Tamil Nadu State Board", AIMO_LINK, use_container_width=True)
+    st.link_button("TECHKNOW 2026", TECHKNOW_LINK, use_container_width=True)
+    st.link_button("Agentic AI Hackathon", HACKATHON_LINK, use_container_width=True)
     
     st.markdown("---")
     st.subheader("⚙️ LLM Configuration")
@@ -128,11 +188,65 @@ with st.sidebar:
         """)
 
 # Main Screen Header
-st.markdown('<div class="main-title">🧭 HireSense AI — Intelligent Resume & Job Matcher</div>', unsafe_allow_html=True)
-st.markdown(
-    '<div class="sub-title">Recruiter-grade candidate qualification, gap analysis, and interview planning firmly grounded in reality.</div>',
-    unsafe_allow_html=True
-)
+st.markdown("""
+<div class="collab-hero">
+    <div class="badge-pill badge-success">Admin-only resume vault</div>
+    <div class="badge-pill" style="background:#1E3A8A;color:#BFDBFE;border:1px solid #2563EB;">AIMO × TECHKNOW 2026</div>
+    <div class="badge-pill" style="background:#4C1D95;color:#DDD6FE;border:1px solid #7C3AED;">Product Space Hackathon</div>
+    <div class="collab-title">HireSense AI — Intelligent Resume & Job Matcher</div>
+    <div class="collab-copy">
+        A professional career-intelligence and resume-submission experience for TECHKNOW 2026 candidates,
+        AIMO ecosystem employers, and Agentic AI Hackathon builders. Candidates can preview their resume before
+        submission while storage remains restricted to authorized administrators.
+    </div>
+</div>
+""", unsafe_allow_html=True)
+
+partner_col1, partner_col2, partner_col3 = st.columns(3)
+with partner_col1:
+    st.markdown("""
+    <div class="partner-card">
+        <h4>AIMO Tamil Nadu State Board</h4>
+        <p>Industry ecosystem partner for manufacturing, innovation, and employer connectivity.</p>
+    </div>
+    """, unsafe_allow_html=True)
+    st.link_button("Open AIMO", AIMO_LINK, use_container_width=True)
+with partner_col2:
+    st.markdown("""
+    <div class="partner-card">
+        <h4>TECHKNOW 2026</h4>
+        <p>Conference, exhibition, and mega job fair pathway for verified opportunities.</p>
+    </div>
+    """, unsafe_allow_html=True)
+    st.link_button("Open TECHKNOW", TECHKNOW_LINK, use_container_width=True)
+with partner_col3:
+    st.markdown("""
+    <div class="partner-card">
+        <h4>Agentic AI Hackathon</h4>
+        <p>Product Space builder event for proof of work, AI projects, and portfolio evidence.</p>
+    </div>
+    """, unsafe_allow_html=True)
+    st.link_button("Open Hackathon", HACKATHON_LINK, use_container_width=True)
+
+st.markdown("<br>", unsafe_allow_html=True)
+vault_col1, vault_col2 = st.columns([1.2, 1])
+with vault_col1:
+    st.markdown("""
+    <div class="vault-card">
+        <h3 style="margin-top:0;color:#ECFDF5;">Private Resume Submission Flow</h3>
+        <p style="color:#D1FAE5;margin-bottom:8px;">
+            Users preview the resume inside HireSense AI before submitting. After submission, files are handled through
+            the admin intake queue; candidates are not given access to browse the Drive folder.
+        </p>
+        <div class="small-muted">Restricted folder policy: ADMIN_ONLY / RESTRICTED / no public link browsing.</div>
+    </div>
+    """, unsafe_allow_html=True)
+with vault_col2:
+    st.info(
+        "Admin note: Keep the Google Drive folder restricted and use the app as the public submission surface. "
+        "Do not grant viewer/editor access to candidates."
+    )
+    st.caption(f"Storage folder for admins only: {RESUME_DRIVE_LINK}")
 
 # Input Section: Two columns
 col_resume, col_jd = st.columns(2)
@@ -151,12 +265,22 @@ with col_resume:
         )
     
     with resume_tab_pdf:
+        st.markdown("#### Preview before submitting")
+        st.caption("Select a PDF resume, review the extracted preview, then run the analysis. The Drive folder remains admin-only.")
         uploaded_pdf = st.file_uploader("Upload PDF Resume", type=["pdf"], key="pdf_uploader")
         if uploaded_pdf is not None:
-            extracted_pdf_text = extract_text_from_pdf(uploaded_pdf.read())
+            pdf_bytes = uploaded_pdf.read()
+            extracted_pdf_text = extract_text_from_pdf(pdf_bytes)
             st.session_state["resume_input"] = extracted_pdf_text
-            st.success(f"Extracted {len(extracted_pdf_text)} characters from {uploaded_pdf.name}")
-            st.text_area("Extracted Preview", value=extracted_pdf_text[:500] + "...", height=150, disabled=True)
+            st.success(f"Ready for private intake review: {uploaded_pdf.name}")
+            st.write(f"Extracted **{len(extracted_pdf_text)}** characters for preview and analysis.")
+            st.text_area(
+                "Candidate Preview",
+                value=extracted_pdf_text[:1200] + ("..." if len(extracted_pdf_text) > 1200 else ""),
+                height=220,
+                disabled=True
+            )
+            st.info("This app previews the resume for the user. The actual storage folder should stay restricted to admin accounts only.")
 
 with col_jd:
     st.subheader("🎯 Job Description")
