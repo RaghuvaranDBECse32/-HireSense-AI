@@ -16,6 +16,7 @@ load_dotenv()
 AIMO_LINK = "https://aimotnsb.com/"
 TECHKNOW_LINK = "https://techknow2026.in/#features"
 HACKATHON_LINK = "https://theproductspace.in/events/agentic-ai-hackathons"
+GRAPHICAL_LINK = "https://frontend-phi-rust-52.vercel.app/"
 RESUME_DRIVE_LINK = "https://drive.google.com/drive/folders/1Ncs7e-f0qvJdOZrDEO6LBMC7UgryBPAo?usp=sharing"
 AIMO_LOGO_PATH = os.path.join("frontend", "src", "assets", "media", "aimo-logo-badge.avif")
 
@@ -149,6 +150,7 @@ with st.sidebar:
     st.link_button("AIMO Tamil Nadu State Board", AIMO_LINK, use_container_width=True)
     st.link_button("TECHKNOW 2026", TECHKNOW_LINK, use_container_width=True)
     st.link_button("Agentic AI Hackathon", HACKATHON_LINK, use_container_width=True)
+    st.link_button("Graphical Analysis", GRAPHICAL_LINK, use_container_width=True)
     
     st.markdown("---")
     st.subheader("⚙️ LLM Configuration")
