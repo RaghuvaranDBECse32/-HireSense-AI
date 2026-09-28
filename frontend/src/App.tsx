@@ -14,6 +14,7 @@ import { QuantumTrackPage } from './pages/QuantumTrackPage';
 import { ApplicationsPage } from './pages/ApplicationsPage';
 import { ProfilePage } from './pages/ProfilePage';
 import { AdminPortalPage } from './pages/AdminPortalPage';
+import { JobSkillGamesPage } from './pages/JobSkillGamesPage';
 import { JobItem } from './types';
 
 export function App() {
@@ -49,6 +50,8 @@ export function App() {
         {activeTab === 'jobs' && (
           <DiscoverJobsPage onAnalyzeJob={handleAnalyzeJob} />
         )}
+
+        {activeTab === 'skill-games' && <JobSkillGamesPage />}
 
         {activeTab === 'techknow' && (
           <TechknowHubPage onAnalyzeJob={handleAnalyzeJob} />

@@ -1,7 +1,7 @@
 import React from 'react';
 import { 
   Compass, ShieldCheck, Briefcase, Bot, FileText, Cpu, 
-  Sparkles, Award, User, Layers, Calendar, CheckCircle2, ChevronDown, ExternalLink
+  Sparkles, Award, User, Layers, Calendar, CheckCircle2, ChevronDown, ExternalLink, Gamepad2
 } from 'lucide-react';
 import aimoLogoBadge from '../assets/media/aimo-logo-badge.avif';
 
@@ -23,13 +23,14 @@ export const Navbar: React.FC<NavbarProps> = ({
   const navItems = [
     { id: 'home', label: 'Home', icon: Compass },
     { id: 'jobs', label: 'Discover Jobs', icon: Briefcase },
+    { id: 'skill-games', label: 'Job Skill Games', icon: Gamepad2, badge: 'Arcade', highlight: true },
     { id: 'copilot', label: 'AI Career Copilot', icon: Bot, badge: 'AI' },
     { id: 'resume', label: 'Resume Intel', icon: FileText },
     { id: 'skills', label: 'Skill Intelligence', icon: Award },
     { id: 'learning', label: 'Learning & Roadmap', icon: Layers },
     { id: 'ai-agents', label: 'AI & Agents', icon: Cpu, badge: '5 Lvl' },
     { id: 'quantum', label: 'Quantum Track', icon: Sparkles, badge: 'Future' },
-    { id: 'techknow', label: 'TECHKNOW 2026', icon: Calendar, highlight: true },
+    { id: 'techknow', label: 'TECHKNOW 2026', icon: Calendar },
     { id: 'applications', label: 'Applications', icon: CheckCircle2 },
     { id: 'profile', label: 'Profile', icon: User },
   ];

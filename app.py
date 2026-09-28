@@ -28,10 +28,10 @@ st.set_page_config(
     initial_sidebar_state="expanded"
 )
 
-# Custom CSS for Super Mario Retro Arcade UI Theme
+# Custom CSS for Super Mario Retro Arcade UI Theme (Responsive for Mobile, Desktop & System Views)
 st.markdown("""
 <style>
-    @import url('https://fonts.googleapis.com/css2?family=Press+Start+2P&family=Inter:wght@400;600;700&display=swap');
+    @import url('https://fonts.googleapis.com/css2?family=Press+Start+2P&family=Inter:wght@400;500;600;700&display=swap');
 
     /* Global Mario Theme Overrides */
     .stApp {
@@ -39,31 +39,34 @@ st.markdown("""
         background-image: linear-gradient(to bottom, #5C94FC 0%, #201560 100%);
         font-family: 'Inter', sans-serif;
         color: #FFFFFF;
+        overflow-x: hidden;
     }
     
-    /* Headers & Retro Font Accents */
+    /* Headers & Retro Font Accents with responsive clamp */
     .mario-header-title {
         font-family: 'Press Start 2P', monospace;
-        font-size: 1.6rem;
+        font-size: clamp(1rem, 2.5vw, 1.6rem);
         color: #F8D000;
         text-shadow: 3px 3px #000000;
         margin-bottom: 10px;
         line-height: 1.4;
+        word-break: break-word;
     }
     .mario-header-sub {
         font-family: 'Press Start 2P', monospace;
-        font-size: 0.75rem;
+        font-size: clamp(0.6rem, 1.4vw, 0.75rem);
         color: #50CC50;
         text-shadow: 2px 2px #000000;
         margin-bottom: 20px;
+        line-height: 1.4;
     }
 
     /* Badges & Pills */
     .badge-pill {
         display: inline-block;
-        padding: 6px 12px;
+        padding: 5px 10px;
         border-radius: 6px;
-        font-size: 0.75rem;
+        font-size: clamp(0.6rem, 1.2vw, 0.72rem);
         font-weight: 700;
         font-family: 'Press Start 2P', monospace;
         margin-right: 6px;
@@ -76,57 +79,92 @@ st.markdown("""
 
     /* Cards & Containers (Retro Game Box Style) */
     .collab-hero {
-        border: 4px solid #000000;
+        border: 3px solid #000000;
         border-radius: 12px;
-        padding: 24px;
+        padding: clamp(14px, 2.5vw, 24px);
         margin: 8px 0 20px 0;
         background: #000000;
-        box-shadow: 6px 6px 0px rgba(0, 0, 0, 0.5);
+        box-shadow: 5px 5px 0px rgba(0, 0, 0, 0.5);
     }
     .partner-card {
-        border: 3px solid #000;
+        border: 2px solid #000;
         border-radius: 8px;
-        padding: 14px;
+        padding: 12px;
         background: #D88000;
-        box-shadow: 4px 4px 0px #000;
+        box-shadow: 3px 3px 0px #000;
         height: 100%;
         color: #FFF;
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
     }
     .partner-card h4 {
         font-family: 'Press Start 2P', monospace;
-        font-size: 0.75rem;
-        margin: 0 0 8px 0;
+        font-size: clamp(0.65rem, 1.2vw, 0.75rem);
+        margin: 0 0 6px 0;
         color: #F8D000;
         text-shadow: 1px 1px #000;
     }
     .partner-card p {
-        font-size: 0.85rem;
+        font-size: clamp(0.75rem, 1.3vw, 0.85rem);
         margin: 0 0 10px 0;
         color: #FFF;
+        line-height: 1.35;
     }
     .vault-card {
         border: 3px solid #000;
         border-radius: 10px;
-        padding: 16px;
+        padding: clamp(12px, 2vw, 16px);
         background: #00A800;
-        box-shadow: 5px 5px 0px #000;
+        box-shadow: 4px 4px 0px #000;
         color: #FFF;
     }
     .evidence-card {
         background: #202060;
-        border: 3px solid #F8D000;
+        border: 2px solid #F8D000;
         border-radius: 8px;
-        padding: 14px;
+        padding: 12px;
         margin-bottom: 12px;
         box-shadow: 3px 3px 0px #000;
     }
     .metric-box {
         text-align: center;
-        padding: 14px;
+        padding: 12px;
         background: #000000;
-        border: 3px solid #F8D000;
+        border: 2px solid #F8D000;
         border-radius: 8px;
-        box-shadow: 4px 4px 0px #000;
+        box-shadow: 3px 3px 0px #000;
+    }
+    .secure-pipeline-bar {
+        border: 2px solid #201560;
+        background: rgba(11, 15, 25, 0.85);
+        border-radius: 10px;
+        padding: 12px 16px;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        flex-wrap: wrap;
+        gap: 12px;
+        box-shadow: 3px 3px 0px #000;
+        margin: 12px 0 18px 0;
+    }
+
+    /* Mobile & System View Responsiveness */
+    @media (max-width: 768px) {
+        .collab-hero {
+            padding: 14px;
+        }
+        .partner-card {
+            margin-bottom: 8px;
+        }
+        .stButton button {
+            width: 100% !important;
+        }
+        .block-container {
+            padding-left: 1rem !important;
+            padding-right: 1rem !important;
+            padding-top: 1rem !important;
+        }
     }
 </style>
 """, unsafe_allow_html=True)
@@ -228,25 +266,41 @@ with partner_col4:
 
 st.markdown("<br>", unsafe_allow_html=True)
 
-# Vault Submission Flow Section
-vault_col1, vault_col2 = st.columns([1.3, 1])
-with vault_col1:
+# Secure Candidate Intake Bar & Hidden Admin Vault Pipe Button
+intake_col1, intake_col2 = st.columns([2.5, 1])
+
+with intake_col1:
     st.markdown("""
-    <div class="vault-card">
-        <h3 style="margin-top:0;color:#F8D000;font-family:'Press Start 2P';font-size:0.85rem;">🍄 PRIVATE SUBMISSION PIPE</h3>
-        <p style="color:#FFF;margin-bottom:8px;font-size:0.9rem;line-height: 1.4;">
-            Users preview the resume inside HireSense AI before entering the intake pipe. Files are handled through
-            the secure admin queue; candidates do not browse the raw Drive repository.
-        </p>
-        <div style="font-size:0.75rem; color:#E2E8F0;">Restriction Level: ADMIN_ONLY / SECURE_VAULT</div>
+    <div class="secure-pipeline-bar">
+        <div style="display:flex; align-items:center; gap:12px; flex-wrap:wrap;">
+            <div style="background:#00A800; border:2px solid #000; border-radius:8px; padding:6px 10px; font-size:1.1rem; box-shadow:2px 2px 0px #000;">
+                🍄
+            </div>
+            <div>
+                <div style="font-family:'Press Start 2P', monospace; font-size:0.75rem; color:#F8D000; text-shadow:1px 1px #000;">
+                    CANDIDATE INTAKE PIPE
+                </div>
+                <div style="font-size:0.82rem; color:#E2E8F0; margin-top:3px;">
+                    Preview candidate profile and evidence locally. Submissions route to the verified employer queue.
+                </div>
+            </div>
+        </div>
     </div>
     """, unsafe_allow_html=True)
 
-with vault_col2:
-    st.info(
-        "**Admin Note:** Keep the Google Drive folder restricted and use the app as the public submission interface."
-    )
-    st.caption(f"Admin storage link: {RESUME_DRIVE_LINK}")
+with intake_col2:
+    st.markdown("<div style='height: 12px;'></div>", unsafe_allow_html=True)
+    with st.popover("🔒 Admin Vault (Restricted)", use_container_width=True):
+        st.markdown("### 🍄 PRIVATE SUBMISSION PIPE")
+        st.caption("Restriction Level: **ADMIN_ONLY / SECURE_VAULT**")
+        st.write(
+            "Users preview the resume inside HireSense AI before entering the intake pipe. "
+            "Files are handled through the secure admin queue; candidates do not browse the raw Drive repository."
+        )
+        st.info(
+            "**Admin Note:** Keep the Google Drive folder restricted and use the app as the public submission interface."
+        )
+        st.link_button("📂 Open Admin Drive Repository", RESUME_DRIVE_LINK, use_container_width=True)
 
 st.markdown("---")
 
