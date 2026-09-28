@@ -91,6 +91,18 @@ class CompanyVerificationUpdate(BaseModel):
     source_url: Optional[str] = None
 
 # ==============================================================================
+# 0. HEALTH CHECK & STATUS
+# ==============================================================================
+
+@app.get("/")
+def root():
+    return {"status": "ok", "app": "HireSense AI API", "docs": "/docs"}
+
+@app.get("/health")
+def health_check():
+    return {"status": "healthy"}
+
+# ==============================================================================
 # 1. AUTHENTICATION & DEMO ACCESS
 # ==============================================================================
 
