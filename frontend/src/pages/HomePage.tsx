@@ -108,6 +108,28 @@ export const HomePage: React.FC<HomePageProps> = ({ setActiveTab }) => {
                 AI Industrial Transformation & Semiconductor Expo <ArrowRight className="w-3 h-3 group-hover:translate-x-0.5 transition" />
               </div>
             </div>
+
+            {/* Hack2Skill / Project Drishti & School STEM Banner */}
+            <div 
+              onClick={() => setActiveTab('hackathon')}
+              className="md:col-span-2 p-4 rounded-xl bg-gradient-to-r from-amber-950/60 via-slate-900 to-sky-950/60 border border-amber-500/50 cursor-pointer hover:border-amber-400 transition group shadow-lg"
+            >
+              <div className="flex items-center justify-between flex-wrap gap-2">
+                <span className="text-[10px] font-mono font-bold uppercase tracking-wider text-amber-300 bg-amber-950/90 px-2.5 py-0.5 rounded border border-amber-600 flex items-center gap-1.5">
+                  <Trophy className="w-3 h-3 text-amber-400" /> HACK2SKILL HACKATHON & SCHOOL STEM TRACK
+                </span>
+                <span className="text-xs font-bold text-emerald-400 font-mono">Evaluation Live • Raghuvaran Damodaran (Anna Univ)</span>
+              </div>
+              <h3 className="text-sm font-bold text-white mt-2 group-hover:text-amber-300 transition flex items-center gap-2">
+                Project Drishti / EduSync AI — AI for Foundational Learning
+              </h3>
+              <p className="text-xs text-slate-300 mt-1 leading-relaxed">
+                Real-Time Learning-Level Visibility for schools, 2-minute oral reading & numeracy diagnostics (TaRL / ASER framework), plus early STEM apprentice opportunities for school students (Classes 8-12).
+              </p>
+              <div className="text-[11px] text-amber-300/90 font-medium mt-2 flex items-center gap-1">
+                Explore Hackathon Hub & Try Classroom Diagnostic Simulator <ArrowRight className="w-3 h-3 group-hover:translate-x-0.5 transition" />
+              </div>
+            </div>
           </div>
         </div>
       </section>

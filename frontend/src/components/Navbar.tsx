@@ -1,8 +1,9 @@
 import React from 'react';
 import { 
   Compass, ShieldCheck, Briefcase, Bot, FileText, Cpu, 
-  Sparkles, Award, User, Layers, Calendar, CheckCircle2, ChevronDown, ExternalLink, Gamepad2
+  Sparkles, Award, User, Layers, Calendar, CheckCircle2, ChevronDown, ExternalLink, Gamepad2, Trophy, GraduationCap
 } from 'lucide-react';
+import hireSenseLogo from '../assets/media/hiresense-logo.png';
 import aimoLogoBadge from '../assets/media/aimo-logo-badge.avif';
 
 interface NavbarProps {
@@ -24,6 +25,7 @@ export const Navbar: React.FC<NavbarProps> = ({
     { id: 'home', label: 'Home', icon: Compass },
     { id: 'jobs', label: 'Discover Jobs', icon: Briefcase },
     { id: 'skill-games', label: 'Job Skill Games', icon: Gamepad2, badge: 'Arcade', highlight: true },
+    { id: 'hackathon', label: 'AI Hackathon & FLN', icon: Trophy, badge: 'Hack2Skill', highlight: true },
     { id: 'copilot', label: 'AI Career Copilot', icon: Bot, badge: 'AI' },
     { id: 'resume', label: 'Resume Intel', icon: FileText },
     { id: 'skills', label: 'Skill Intelligence', icon: Award },
@@ -85,9 +87,9 @@ export const Navbar: React.FC<NavbarProps> = ({
             onClick={() => setActiveTab('home')}
             className="flex items-center gap-3 cursor-pointer group"
           >
-            <div className="w-10 h-10 rounded-xl bg-white p-1 shadow-lg shadow-sky-500/20 group-hover:shadow-sky-500/40 transition-all duration-300">
-              <div className="w-full h-full rounded-[10px] flex items-center justify-center overflow-hidden">
-                <img src={aimoLogoBadge} alt="AIMO TNSB logo" className="w-full h-full object-contain" />
+            <div className="w-11 h-11 rounded-full p-0.5 bg-gradient-to-tr from-sky-400 via-indigo-500 to-emerald-400 shadow-lg shadow-sky-500/25 group-hover:shadow-sky-500/50 transition-all duration-300">
+              <div className="w-full h-full rounded-full overflow-hidden bg-slate-950 flex items-center justify-center">
+                <img src={hireSenseLogo} alt="HireSense AI Logo - Precision in Recruitment" className="w-full h-full object-cover" />
               </div>
             </div>
             <div>
@@ -100,7 +102,7 @@ export const Navbar: React.FC<NavbarProps> = ({
                 </span>
               </div>
               <p className="text-[10px] text-slate-400 tracking-wide -mt-0.5 font-medium">
-                Don't Just Apply. Understand Your Fit.
+                Precision in Recruitment • For Students & Pros
               </p>
             </div>
           </div>
@@ -165,6 +167,21 @@ export const Navbar: React.FC<NavbarProps> = ({
                       <div className="text-[10px] text-slate-400">Job Seeker (3 Yrs Full-Stack)</div>
                     </div>
                     {userRole === 'job_seeker' && <CheckCircle2 className="w-4 h-4 text-sky-400" />}
+                  </button>
+                  <button
+                    onClick={() => {
+                      setUserRole('student');
+                      setDemoMenuOpen(false);
+                    }}
+                    className="w-full text-left px-2.5 py-2 rounded-lg hover:bg-slate-800 text-slate-200 flex items-center justify-between"
+                  >
+                    <div>
+                      <div className="font-medium text-amber-300 flex items-center gap-1.5">
+                        <GraduationCap className="w-3.5 h-3.5" /> School Student (K-12 / STEM)
+                      </div>
+                      <div className="text-[10px] text-slate-400">Early Career, FLN & Apprenticeship</div>
+                    </div>
+                    {userRole === 'student' && <CheckCircle2 className="w-4 h-4 text-amber-400" />}
                   </button>
                   <button
                     onClick={() => {

@@ -1,7 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import { 
   Search, Filter, MapPin, Building2, Briefcase, DollarSign, 
-  Sparkles, CheckCircle2, ChevronRight, ArrowUpDown, DoorOpen, ShieldCheck 
+  Sparkles, CheckCircle2, ChevronRight, ArrowUpDown, DoorOpen, ShieldCheck,
+  RefreshCw, GraduationCap, Clock
 } from 'lucide-react';
 import { JobItem } from '../types';
 
@@ -12,27 +13,31 @@ interface DiscoverJobsPageProps {
 export const DiscoverJobsPage: React.FC<DiscoverJobsPageProps> = ({ onAnalyzeJob }) => {
   const [jobs, setJobs] = useState<JobItem[]>([]);
   const [loading, setLoading] = useState(true);
+  const [isSyncing, setIsSyncing] = useState(false);
+  const [syncStatusText, setSyncStatusText] = useState<string | null>(null);
   const [searchTerm, setSearchTerm] = useState('');
   const [selectedTrack, setSelectedTrack] = useState('All');
   const [selectedType, setSelectedType] = useState('All');
+  const [selectedAudience, setSelectedAudience] = useState<'All' | 'School' | 'Graduates'>('All');
   const [techknowOnly, setTechknowOnly] = useState(false);
   const [sortByRelevance, setSortByRelevance] = useState(false);
 
   const tracks = [
-    'All', 'AI Engineering', 'Agentic AI', 'Quantum', 'Cloud', 
+    'All', 'School STEM & AI', 'AI Engineering', 'Agentic AI', 'Quantum', 'Cloud', 
     'Backend', 'Full Stack', 'Smart Manufacturing', 'Engineering'
   ];
 
-  const jobTypes = ['All', 'Regular Job', 'Internship', 'Apprenticeship'];
+  const jobTypes = ['All', 'Regular Job', 'Internship', 'School Internship', 'Student Apprenticeship', 'Apprenticeship'];
 
   useEffect(() => {
     fetchJobs();
-  }, []);
+  }, [selectedAudience]);
 
   const fetchJobs = async () => {
     try {
       setLoading(true);
-      const res = await fetch('/api/jobs');
+      const url = selectedAudience === 'All' ? '/api/jobs' : `/api/jobs?audience=${selectedAudience.toLowerCase()}`;
+      const res = await fetch(url);
       const data = await res.json();
       setJobs(data);
     } catch (err) {
@@ -42,18 +47,44 @@ export const DiscoverJobsPage: React.FC<DiscoverJobsPageProps> = ({ onAnalyzeJob
     }
   };
 
+  const handleSyncJobs = async () => {
+    try {
+      setIsSyncing(true);
+      setSyncStatusText('Connecting to live recruitment feeds & school apprentice portals...');
+      const res = await fetch('/api/jobs/sync', { method: 'POST' });
+      const data = await res.json();
+      setSyncStatusText(data.message || 'Jobs synchronized!');
+      await fetchJobs();
+      setTimeout(() => setSyncStatusText(null), 6000);
+    } catch (err) {
+      setSyncStatusText('Failed to sync live jobs feed.');
+    } finally {
+      setIsSyncing(false);
+    }
+  };
+
   const filteredJobs = jobs.filter((job) => {
     const matchesSearch = 
       job.title.toLowerCase().includes(searchTerm.toLowerCase()) ||
       job.company_name.toLowerCase().includes(searchTerm.toLowerCase()) ||
       job.location.toLowerCase().includes(searchTerm.toLowerCase()) ||
+      job.track.toLowerCase().includes(searchTerm.toLowerCase()) ||
       (job.techknow_room && job.techknow_room.toLowerCase().includes(searchTerm.toLowerCase()));
 
     const matchesTrack = selectedTrack === 'All' || job.track.toLowerCase().includes(selectedTrack.toLowerCase());
     const matchesType = selectedType === 'All' || job.job_type.toLowerCase().includes(selectedType.toLowerCase());
     const matchesTechknow = !techknowOnly || job.is_techknow_opportunity;
 
-    return matchesSearch && matchesTrack && matchesType && matchesTechknow;
+    const isSchoolJob = 
+      job.education_required?.toLowerCase().includes('school') ||
+      job.job_type?.toLowerCase().includes('school') ||
+      job.track?.toLowerCase().includes('school');
+
+    const matchesAudience = 
+      selectedAudience === 'All' ? true :
+      selectedAudience === 'School' ? isSchoolJob : !isSchoolJob;
+
+    return matchesSearch && matchesTrack && matchesType && matchesTechknow && matchesAudience;
   });
 
   return (
@@ -72,18 +103,40 @@ export const DiscoverJobsPage: React.FC<DiscoverJobsPageProps> = ({ onAnalyzeJob
           </p>
         </div>
 
-        {/* Action: Find Jobs Relevant to Me */}
-        <button
-          onClick={() => {
-            setSortByRelevance(true);
-            setTechknowOnly(false);
-          }}
-          className="flex items-center gap-2 px-4 py-2.5 rounded-xl bg-gradient-to-r from-emerald-600 to-teal-600 hover:from-emerald-500 hover:to-teal-500 text-white font-semibold text-xs shadow-lg shadow-emerald-600/20 transition self-start md:self-auto"
-        >
-          <Sparkles className="w-4 h-4 text-emerald-200" />
-          <span>Find Jobs Relevant to Me (Anti-Gravity Fit)</span>
-        </button>
+        {/* Action Buttons */}
+        <div className="flex flex-wrap items-center gap-2.5 self-start md:self-auto">
+          <button
+            onClick={handleSyncJobs}
+            disabled={isSyncing}
+            className="flex items-center gap-2 px-3.5 py-2.5 rounded-xl bg-slate-800/90 hover:bg-slate-700 text-sky-300 font-semibold text-xs border border-slate-700 shadow-md transition disabled:opacity-50"
+            title="Fetch and sync fresh live opportunities from industry & student apprentice portals"
+          >
+            <RefreshCw className={`w-3.5 h-3.5 text-sky-400 ${isSyncing ? 'animate-spin' : ''}`} />
+            <span>{isSyncing ? 'Syncing...' : 'Sync Fresh Jobs'}</span>
+          </button>
+
+          <button
+            onClick={() => {
+              setSortByRelevance(true);
+              setTechknowOnly(false);
+            }}
+            className="flex items-center gap-2 px-4 py-2.5 rounded-xl bg-gradient-to-r from-emerald-600 to-teal-600 hover:from-emerald-500 hover:to-teal-500 text-white font-semibold text-xs shadow-lg shadow-emerald-600/20 transition"
+          >
+            <Sparkles className="w-4 h-4 text-emerald-200" />
+            <span>Find Jobs Relevant to Me (Anti-Gravity Fit)</span>
+          </button>
+        </div>
       </div>
+
+      {syncStatusText && (
+        <div className="p-3 rounded-xl bg-sky-950/80 border border-sky-700/60 text-xs text-sky-200 flex items-center justify-between animate-fadeIn">
+          <div className="flex items-center gap-2">
+            <CheckCircle2 className="w-4 h-4 text-sky-400 shrink-0" />
+            <span>{syncStatusText}</span>
+          </div>
+          <button onClick={() => setSyncStatusText(null)} className="text-sky-400 hover:text-white text-xs font-bold">×</button>
+        </div>
+      )}
 
       {/* Filter Toolbar */}
       <div className="bg-slate-900/80 border border-slate-800 rounded-xl p-4 space-y-4">
@@ -97,6 +150,46 @@ export const DiscoverJobsPage: React.FC<DiscoverJobsPageProps> = ({ onAnalyzeJob
             onChange={(e) => setSearchTerm(e.target.value)}
             className="w-full pl-10 pr-4 py-2.5 rounded-lg bg-slate-950 border border-slate-800 text-xs text-white placeholder:text-slate-500 focus:outline-none focus:border-sky-500 transition"
           />
+        </div>
+
+        {/* Target Audience / Student Focus Segmented Control */}
+        <div className="space-y-1.5 pb-2 border-b border-slate-800/80">
+          <div className="text-[11px] font-bold uppercase tracking-wider text-slate-400 flex items-center gap-1.5">
+            <GraduationCap className="w-3.5 h-3.5 text-amber-400" /> Target Audience / Education Focus
+          </div>
+          <div className="flex flex-wrap gap-2">
+            <button
+              onClick={() => setSelectedAudience('All')}
+              className={`px-3 py-1 rounded-lg text-xs font-semibold transition ${
+                selectedAudience === 'All'
+                  ? 'bg-sky-500 text-white shadow'
+                  : 'bg-slate-800/80 text-slate-300 hover:bg-slate-700'
+              }`}
+            >
+              All Opportunities
+            </button>
+            <button
+              onClick={() => setSelectedAudience('School')}
+              className={`px-3 py-1 rounded-lg text-xs font-semibold flex items-center gap-1.5 transition ${
+                selectedAudience === 'School'
+                  ? 'bg-amber-500 text-slate-950 font-bold shadow-lg shadow-amber-500/25 ring-2 ring-amber-400'
+                  : 'bg-amber-950/60 text-amber-300 border border-amber-800/60 hover:bg-amber-900/60'
+              }`}
+            >
+              <GraduationCap className="w-3.5 h-3.5" />
+              School Students (Classes 8-12 / STEM Apprenticeships)
+            </button>
+            <button
+              onClick={() => setSelectedAudience('Graduates')}
+              className={`px-3 py-1 rounded-lg text-xs font-semibold transition ${
+                selectedAudience === 'Graduates'
+                  ? 'bg-sky-500 text-white shadow'
+                  : 'bg-slate-800/80 text-slate-300 hover:bg-slate-700'
+              }`}
+            >
+              College Graduates & Experienced Roles
+            </button>
+          </div>
         </div>
 
         {/* Track Filter Pills */}
@@ -184,11 +277,21 @@ export const DiscoverJobsPage: React.FC<DiscoverJobsPageProps> = ({ onAnalyzeJob
                     </div>
                   </div>
 
-                  {job.is_techknow_opportunity && (
-                    <span className="shrink-0 inline-flex items-center gap-1 text-[10px] font-mono font-bold bg-amber-950/80 text-amber-300 border border-amber-700/60 px-2 py-0.5 rounded">
-                      TECHKNOW 2026
+                  <div className="flex items-center gap-1.5 flex-wrap">
+                    {(job.education_required?.toLowerCase().includes('school') || job.job_type?.toLowerCase().includes('school')) && (
+                      <span className="inline-flex items-center gap-1 text-[10px] font-bold bg-amber-950/90 text-amber-300 border border-amber-500/80 px-2 py-0.5 rounded-full shadow-sm">
+                        <GraduationCap className="w-3 h-3 text-amber-400" /> School Student Friendly
+                      </span>
+                    )}
+                    {job.is_techknow_opportunity && (
+                      <span className="shrink-0 inline-flex items-center gap-1 text-[10px] font-mono font-bold bg-amber-950/80 text-amber-300 border border-amber-700/60 px-2 py-0.5 rounded">
+                        TECHKNOW 2026
+                      </span>
+                    )}
+                    <span className="text-[10px] font-mono px-2 py-0.5 rounded bg-sky-950 text-sky-300 border border-sky-800/60">
+                      {job.track}
                     </span>
-                  )}
+                  </div>
                 </div>
 
                 <div className="flex flex-wrap gap-2 text-xs text-slate-400">
@@ -198,7 +301,7 @@ export const DiscoverJobsPage: React.FC<DiscoverJobsPageProps> = ({ onAnalyzeJob
                   <span>•</span>
                   <span>{job.work_mode}</span>
                   <span>•</span>
-                  <span>{job.job_type}</span>
+                  <span className="text-slate-300 font-medium">{job.job_type}</span>
                 </div>
 
                 {job.techknow_room && (

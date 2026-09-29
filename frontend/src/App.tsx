@@ -15,6 +15,7 @@ import { ApplicationsPage } from './pages/ApplicationsPage';
 import { ProfilePage } from './pages/ProfilePage';
 import { AdminPortalPage } from './pages/AdminPortalPage';
 import { JobSkillGamesPage } from './pages/JobSkillGamesPage';
+import { HackathonPage } from './pages/HackathonPage';
 import { JobItem } from './types';
 
 export function App() {
@@ -52,6 +53,8 @@ export function App() {
         )}
 
         {activeTab === 'skill-games' && <JobSkillGamesPage />}
+
+        {activeTab === 'hackathon' && <HackathonPage />}
 
         {activeTab === 'techknow' && (
           <TechknowHubPage onAnalyzeJob={handleAnalyzeJob} />
